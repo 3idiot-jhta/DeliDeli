@@ -9,7 +9,21 @@
     <script>
         $(document).ready(function () {
             getCommentList();
+            validateCommentForm();
+
+            // 댓글 작성 폼 검증
+            $('textarea[name="commentContents"], input[name="userKey"]').on('input', function () {
+                validateCommentForm();
+            });
         });
+
+        function validateCommentForm() {
+            var commentContents = $('textarea[name="commentContents"]').val();
+            var userKey = $('input[name="userKey"]').val();
+            var isFormValid = commentContents.trim() !== "" && userKey !== "";
+
+            $('button[name="comment-submit"]').prop('disabled', !isFormValid);
+        }
 
         // 댓글 조회
         function getCommentList() {
@@ -155,7 +169,6 @@
         }
     </script>
     <style>
-        /*댓글,대댓글 계층형 구조에 따라 다른배치*/
         .comment { margin-left: 0; }
         .replies { margin-left: 20px; }
         .edit-form, .reply-form { margin-top: 10px; }
@@ -188,11 +201,11 @@
         <form name="comment-form" action="/user/eventDetail/comment/write" method="post" autocomplete="off">
             <div class="form-group">
                 <!-- userKey와 boardKey 강제로 값 주입 -->
-                <input type="hidden" name="userKey" value="7" />
+                <input type="hidden" name="userKey" value="1" />
                 <input type="hidden" name="boardKey" th:value="${dto.boardKey}" />
                 <textarea name="commentContents" class="form-control" rows="3"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">댓글작성</button>
+            <button type="submit" class="btn btn-primary" name="comment-submit" disabled>댓글작성</button>
         </form>
     </div>
 </div>
