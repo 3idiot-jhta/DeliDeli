@@ -1,4 +1,4 @@
-package kr.co.jhta.app.delideli.user.main.dto;
+package kr.co.jhta.app.delideli.user.category.dto;
 
 import lombok.*;
 

@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--namespace의 명이 DAO의 패키지명과 일치해야함-->
-<mapper namespace="kr.co.jhta.app.delideli.user.main.repository.UserCategoryRepository">
+<mapper namespace="kr.co.jhta.app.delideli.user.category.repository.UserCategoryRepository">
 
     <!-- 카테고리 전체 목록 가져오기 -->
     <select id="getCategoryAllList" parameterType="CategoryDTO" resultType="CategoryDTO">

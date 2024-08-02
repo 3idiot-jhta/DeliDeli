@@ -1,7 +1,7 @@
-package kr.co.jhta.app.delideli.user.main.repository;
+package kr.co.jhta.app.delideli.user.category.repository;
 
-import kr.co.jhta.app.delideli.user.main.dto.CategoryDTO;
-import kr.co.jhta.app.delideli.user.main.dto.CategoryStoreInfoDTO;
+import kr.co.jhta.app.delideli.user.category.dto.CategoryDTO;
+import kr.co.jhta.app.delideli.user.category.dto.CategoryStoreInfoDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
