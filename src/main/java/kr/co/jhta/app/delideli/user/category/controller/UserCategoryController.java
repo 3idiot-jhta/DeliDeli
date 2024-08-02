@@ -27,7 +27,7 @@ public class UserCategoryController {
     public String categoryMain(Model model) {
         List<CategoryDTO> list = userCategoryService.getCategoryAllList();
         model.addAttribute("list", list);
-        return "userCategory";
+        return "user/category/userCategory";
     }
 
     //해당카테고리 상점 가져오기
