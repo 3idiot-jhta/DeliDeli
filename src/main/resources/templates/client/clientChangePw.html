@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>비밀번호 변경</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .error-message {
+            color: red;
+        }
+        .success-message {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+<h1>비밀번호 변경</h1>
+<form method="post" action="/client/changePassword">
+    <input type="hidden" name="clientId" th:value="${clientId}">
+    <label for="clientPw">새 비밀번호:</label>
+    <input type="password" id="clientPw" name="newPassword" required>
+    <br>
+    <label for="checkClientPw">새 비밀번호 확인:</label>
+    <input type="password" id="checkClientPw" name="confirmPassword" required>
+    <br>
+    <span id="passwordMessage"></span>
+    <br>
+    <button type="submit">비밀번호 변경</button>
+</form>
+<div id="errorMessage" style="color: red;" th:if="${errorMessage}" th:text="${errorMessage}"></div>
+
+<script>
+    $(document).ready(function () {
+        $("#checkClientPw").keyup(function() {
+            var password = $("#clientPw").val();
+            var checkPassword = $("#checkClientPw").val();
+            if (password !== checkPassword) {
+                $("#passwordMessage").text("비밀번호가 일치하지 않습니다.").removeClass('success-message').addClass('error-message');
+            } else {
+                $("#passwordMessage").text("비밀번호가 일치합니다.").removeClass('error-message').addClass('success-message');
+            }
+        });
+    });
+</script>
+</body>
+</html>
