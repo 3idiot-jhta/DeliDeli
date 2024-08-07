@@ -226,3 +226,6 @@ Thumbs.db
 *.tmp
 *.bak
 *.swp
+
+/bin/
+/bin/*
