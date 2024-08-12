@@ -1,21 +1,31 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>index.html</title>
-</head>
-<body>
-<h1>테스트임당</h1>
-<h1>테스트임당4</h1>
-    <h1>테스트임당</h1>
-    <h1>테스트임당2</h1>
-    <h2>Test</h2>
-<h1>테스트임당2</h1>
-    <h3>index.html</h3>
-    <a href="user/userLogin">로그인</a>
-    <a href="user/userRegister">회원가입</a>
-    <a href="/user/notice">공지사항</a>
-    <a href="/user/event">이벤트</a>
-    <a href="/user/category">가게카테고리</a>
-</body>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>사용자 - 메인페이지</title>
+        <!-- Include:공통 CSS -->
+        <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+        <!-- Include:User CSS -->
+        <th:block th:include="inc/user/user-css :: userCss"></th:block>
+        <!-- Include:공통 JS -->
+        <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+        <!-- Include:User JS -->
+        <th:block th:include="inc/user/user-js :: userJs"></th:block>
+    </head>
+    <body>
+        <!-- Start:Header -->
+        <th:block th:include="inc/user/header :: userHeader"></th:block>
+        <!-- End:Header -->
+
+        <!-- Start:Main -->
+        <main id="mainpage__wrap">
+
+        </main>
+        <!-- End:Main -->
+
+        <!-- Start:Footer -->
+        <th:block th:include="inc/user/footer :: userFooter"></th:block>
+        <!-- End:Footer -->
+    </body>
 </html>
