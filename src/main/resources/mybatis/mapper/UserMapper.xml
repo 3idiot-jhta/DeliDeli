@@ -134,8 +134,5 @@
         SET user_point = user_point + #{amount}
         WHERE user_key = #{userKey}
     </update>
-<<<<<<< HEAD
-=======
   
->>>>>>> 932b30413a9a43a51e0b17a4e3f8f46f848c6b1f
 </mapper>
