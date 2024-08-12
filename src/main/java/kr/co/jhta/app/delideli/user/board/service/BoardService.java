@@ -17,7 +17,7 @@ public interface BoardService {
     int getTotalKeyword(String keyword);
     //공지사항 상세보기
     Board readOneNotice(int num);
-
+  
     //이벤트 목록
     List<Board> getEventList(int startNo, int endNo);
     //이벤트 상세보기

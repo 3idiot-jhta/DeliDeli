@@ -35,20 +35,28 @@ public interface UserMapper {
     void modifyUser(UserAccount user);
 
     // 사용자 키로 주소 목록을 조회
-    ArrayList<UserAddress> selectUserAddressList(Long userKey);
+    ArrayList<UserAddress> selectUserAddressList(int userKey);
 
     // 사용자 주소를 수정
     void updateUserAddress(UserAddress address);
 
     // 기본 주소를 초기화
-    void resetDefaultAddress(Long userKey);
+    void resetDefaultAddress(int userKey);
 
     // 기본 주소로 설정
-    void setDefaultAddress(Long addressKey);
+    void setDefaultAddress(int addressKey);
 
     // 사용자 주소를 삭제
+<<<<<<< HEAD
     void deleteUserAddress(Long addressKey);
 
     //사용자 포인트충전
     void chargeUserPoint(Map<String, Integer> map);
+=======
+    void deleteUserAddress(int addressKey);
+  
+    //사용자 포인트충전
+    void chargeUserPoint(Map<String, Integer> map);
+
+>>>>>>> 932b30413a9a43a51e0b17a4e3f8f46f848c6b1f
 }

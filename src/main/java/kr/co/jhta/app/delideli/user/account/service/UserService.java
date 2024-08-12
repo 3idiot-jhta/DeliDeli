@@ -3,6 +3,7 @@ package kr.co.jhta.app.delideli.user.account.service;
 import kr.co.jhta.app.delideli.user.account.domain.UserAccount;
 import kr.co.jhta.app.delideli.user.account.domain.UserAddress;
 import kr.co.jhta.app.delideli.user.dto.UserDTO;
+import kr.co.jhta.app.delideli.user.store.domain.StoreInfo;
 
 import java.util.ArrayList;
 
@@ -35,19 +36,26 @@ public interface UserService {
     void modifyUser(UserDTO userDTO);
 
     // 주소 목록
-    ArrayList<UserAddress> userAddressList(Long userKey);
+    ArrayList<UserAddress> userAddressList(int userKey);
 
     // 주소 추가
-    void addAddress(Long userKey, String newAddress, String newAddrDetail, String newZipcode);
+    void addAddress(int userKey, String newAddress, String newAddrDetail, String newZipcode);
 
     // 주소 수정
-    void modifyAddress(Long addressKey, String newAddress, String newAddrDetail, String newZipcode);
+    void modifyAddress(int addressKey, String newAddress, String newAddrDetail, String newZipcode);
 
     // 대표 주소 변경
-    void setDefaultAddress(Long userKey, Long addressKey);
+    void setDefaultAddress(int userKey, int addressKey);
 
     // 주소 삭제
+<<<<<<< HEAD
     void deleteAddress(Long addressKey);
+=======
+    void deleteAddress(int addressKey);
+
+    // 찜 목록 조회
+    ArrayList<StoreInfo> getLikedStores(int userKey);
+>>>>>>> 932b30413a9a43a51e0b17a4e3f8f46f848c6b1f
 
     //포인트 충전
     void chargePoint(String userKey, int amount);
