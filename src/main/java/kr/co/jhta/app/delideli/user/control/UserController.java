@@ -8,6 +8,7 @@ import kr.co.jhta.app.delideli.common.service.EmailService;
 import kr.co.jhta.app.delideli.common.service.EmailVerificationService;
 import kr.co.jhta.app.delideli.user.account.domain.UserAccount;
 import kr.co.jhta.app.delideli.user.account.domain.UserAddress;
+import kr.co.jhta.app.delideli.user.board.domain.Board;
 import kr.co.jhta.app.delideli.user.dto.UserDTO;
 import kr.co.jhta.app.delideli.user.account.exception.DuplicateUserIdException;
 import kr.co.jhta.app.delideli.user.account.service.UserService;
@@ -33,6 +34,7 @@ import java.net.URLEncoder;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -354,6 +356,7 @@ public class UserController {
         userService.deleteAddress(addressKey);
         return ResponseEntity.ok().build();
     }
+
 
 
 }

@@ -99,4 +99,28 @@ public class BoardServiceImpl implements BoardService {
         List<Board> list = boardMapper.getAllKeywordEvent(map);
         return list;
     }
+
+    //내문의 목록
+    @Override
+    public List<Board> getMyAskList(Long userKey) {
+        List<Board> list =boardMapper.getMyAskList(userKey);
+        return list;
+    }
+
+    //내문의 작성
+    @Override
+    public void myAskWrite(Board board) {
+        boardMapper.myAskWrite(board);
+    }
+    //내문의 상세보기
+    @Override
+    public Board myAskDetail(int boardKey) {
+        Board board = boardMapper.myAskDetail(boardKey);
+        return board;
+    }
+
+    @Override
+    public void myAskDelete(int boardKey) {
+        boardMapper.myAskDelete(boardKey);
+    }
 }
