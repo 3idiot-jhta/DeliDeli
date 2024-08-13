@@ -8,14 +8,11 @@ import kr.co.jhta.app.delideli.common.service.EmailService;
 import kr.co.jhta.app.delideli.common.service.EmailVerificationService;
 import kr.co.jhta.app.delideli.user.account.domain.UserAccount;
 import kr.co.jhta.app.delideli.user.account.domain.UserAddress;
-<<<<<<< HEAD
 import kr.co.jhta.app.delideli.user.board.domain.Board;
-=======
 import kr.co.jhta.app.delideli.user.cart.domain.Cart;
 import kr.co.jhta.app.delideli.user.cart.domain.CartOptions;
 import kr.co.jhta.app.delideli.user.cart.service.CartService;
 import kr.co.jhta.app.delideli.user.dto.CartDTO;
->>>>>>> 932b30413a9a43a51e0b17a4e3f8f46f848c6b1f
 import kr.co.jhta.app.delideli.user.dto.UserDTO;
 import kr.co.jhta.app.delideli.user.account.exception.DuplicateUserIdException;
 import kr.co.jhta.app.delideli.user.account.service.UserService;
@@ -42,16 +39,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-<<<<<<< HEAD
-import java.sql.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-=======
 import java.util.*;
 import java.util.stream.Collectors;
->>>>>>> 932b30413a9a43a51e0b17a4e3f8f46f848c6b1f
 
 @Controller
 @RequestMapping("/user")
@@ -391,9 +380,6 @@ public class UserController {
         UserAccount userAccount = userService.findUserById(user.getUsername());
         int userKey = userAccount.getUserKey();
 
-<<<<<<< HEAD
-
-=======
         // 찜한 가게 목록 가져오기
         ArrayList<StoreInfo> likedStores = userService.getLikedStores(userKey);
 
@@ -565,5 +551,5 @@ public class UserController {
 
         return new ArrayList<>(allStores.subList(fromIndex, toIndex));
     }
->>>>>>> 932b30413a9a43a51e0b17a4e3f8f46f848c6b1f
+  
 }
