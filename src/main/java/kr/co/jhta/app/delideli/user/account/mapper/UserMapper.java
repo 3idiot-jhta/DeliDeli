@@ -47,7 +47,6 @@ public interface UserMapper {
     void setDefaultAddress(int addressKey);
 
     // 사용자 주소를 삭제
-<<<<<<< HEAD
     void deleteUserAddress(Long addressKey);
 
     //사용자 포인트충전
