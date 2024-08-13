@@ -62,4 +62,11 @@
         WHERE client_id = #{clientId}
     </update>
 
+    <!-- 내정보 수정 -->
+    <update id="modifyClient" parameterType="ClientAccount">
+        UPDATE client_account
+        SET client_name = #{clientName}, client_phone = #{clientPhone}, client_email = #{clientEmail}
+        WHERE client_id = #{clientId}
+    </update>
+
 </mapper>

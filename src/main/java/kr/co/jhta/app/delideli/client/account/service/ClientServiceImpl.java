@@ -54,6 +54,12 @@ public class ClientServiceImpl implements ClientService {
         return clientMapper.checkAccessAccount(clientAccount);
     }
 
+    //사장님 내정보 수정
+    @Override
+    public void modifyClient(ClientDTO clientDTO) {
+        clientMapper.modifyClient(clientDTO);
+    }
+
     // 아이디 중복 확인
     @Override
     public boolean checkClientIdExists(String clientId) {

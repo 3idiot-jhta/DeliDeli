@@ -1,6 +1,7 @@
 package kr.co.jhta.app.delideli.client.account.mapper;
 
 import kr.co.jhta.app.delideli.client.account.domain.ClientAccount;
+import kr.co.jhta.app.delideli.client.dto.ClientDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Optional;
@@ -21,4 +22,6 @@ public interface ClientMapper {
     void updatePwClient(ClientAccount client);
     //아이디 승인 여부 검토
     boolean checkAccessAccount(ClientAccount clientAccount);
+    //내정보 수정
+    void modifyClient(ClientDTO clientDTO);
 }

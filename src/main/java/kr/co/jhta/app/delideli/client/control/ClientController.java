@@ -244,5 +244,26 @@ public class ClientController {
         model.addAttribute("client", clientAccount);
         return "client/mypage/myPage";
     }
+
+    //마이페이지(내정보 수정 창이동)
+    @GetMapping("/infoUpdate")
+    public String clientInfoUpdate(@AuthenticationPrincipal User user, Model model) {
+        ClientAccount clientAccount = clientService.findClientById(user.getUsername());
+        model.addAttribute("client", clientAccount);
+        return "client/mypage/infoUpdate";
+    }
+
+    //마이페이지(내정보 수정)
+    @PostMapping("infoUpdate")
+    public String clientInfoUpdate(@AuthenticationPrincipal User user, @ModelAttribute ClientDTO clientDTO, Model model){
+        if (user != null){
+            ClientAccount clientAccount = clientService.findClientById(user.getUsername());
+            model.addAttribute("client", clientAccount);
+            clientDTO.setClientId(clientAccount.getClientId());
+        }
+        clientService.modifyClient(clientDTO);
+        return "redirect:/client/infoUpdate";
+    }
+
 }
 
