@@ -20,12 +20,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
->>>>>>> 932b30413a9a43a51e0b17a4e3f8f46f848c6b1f
 
 @Service
 @RequiredArgsConstructor
@@ -185,14 +182,11 @@ public class UserServiceImpl implements UserService {
         userMapper.deleteUserAddress(addressKey);
     }
 
-<<<<<<< HEAD
-=======
     @Override
     public ArrayList<StoreInfo> getLikedStores(int userKey) {
         return storeMapper.getLikedStores(userKey);
     }
 
->>>>>>> 932b30413a9a43a51e0b17a4e3f8f46f848c6b1f
     //포인트 충전
     @Override
     public void chargePoint(String userKey, int amount) {

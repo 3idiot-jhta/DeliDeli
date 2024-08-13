@@ -48,14 +48,10 @@ public interface UserService {
     void setDefaultAddress(int userKey, int addressKey);
 
     // 주소 삭제
-<<<<<<< HEAD
-    void deleteAddress(Long addressKey);
-=======
     void deleteAddress(int addressKey);
 
     // 찜 목록 조회
     ArrayList<StoreInfo> getLikedStores(int userKey);
->>>>>>> 932b30413a9a43a51e0b17a4e3f8f46f848c6b1f
 
     //포인트 충전
     void chargePoint(String userKey, int amount);
