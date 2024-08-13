@@ -552,5 +552,4 @@ public class UserController {
         return new ArrayList<>(allStores.subList(fromIndex, toIndex));
     }
 
-
 }
