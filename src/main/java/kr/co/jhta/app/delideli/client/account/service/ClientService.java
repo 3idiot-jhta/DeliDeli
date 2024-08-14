@@ -32,4 +32,7 @@ public interface ClientService {
 
     //내정보 수정
     void modifyClient(ClientDTO clientDTO);
+
+    //비밀번호 변경(로그인)
+    void changePwLogin(String clientId, String newPw1);
 }

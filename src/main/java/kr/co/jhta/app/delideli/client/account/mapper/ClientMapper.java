@@ -4,6 +4,7 @@ import kr.co.jhta.app.delideli.client.account.domain.ClientAccount;
 import kr.co.jhta.app.delideli.client.dto.ClientDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Mapper
@@ -24,4 +25,6 @@ public interface ClientMapper {
     boolean checkAccessAccount(ClientAccount clientAccount);
     //내정보 수정
     void modifyClient(ClientDTO clientDTO);
+    //비밀번호 변경(로그인)
+    void changePwLogin(ClientAccount client);
 }

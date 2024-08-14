@@ -1,20 +1,53 @@
-document.addEventListener('DOMContentLoaded', function() {
-    var menuItems = document.querySelectorAll('.aside__nav--depth1 > li > a');
+function enableEdit(button) {
+    var span = button.previousElementSibling;
+    var value = span.innerText;
+    var input = document.createElement('input');
+    input.type = 'text';
+    input.name = span.dataset.field;
+    input.value = value;
+    span.parentNode.replaceChild(input, span);
+    button.innerText = '취소';
+    button.onclick = function() { cancelEdit(button, input, value); };
+}
 
-    menuItems.forEach(function(menuItem) {
-        menuItem.addEventListener('click', function(event) {
-            var subMenu = this.nextElementSibling;
-            if (subMenu && subMenu.classList.contains('aside__nav--depth2')) {
-                event.preventDefault(); // 기본 링크 이동을 막습니다.
+function cancelEdit(button, input, originalValue) {
+    var span = document.createElement('span');
+    span.dataset.field = input.name;
+    span.innerText = originalValue;
+    input.parentNode.replaceChild(span, input);
+    button.innerText = '수정';
+    button.onclick = function() { enableEdit(button); };
+}
 
-                // 하위 메뉴 열기/닫기
-                subMenu.classList.toggle('open');
-
-                // 일정 시간 후에 페이지 이동
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 300); // 300ms 후에 페이지 이동, 원하는 시간으로 조절 가능
-            }
-        });
+function addHiddenInputs(form) {
+    var spans = form.querySelectorAll('span[data-field]');
+    spans.forEach(function(span) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = span.dataset.field;
+        input.value = span.innerText;
+        form.appendChild(input);
     });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function() {
+            addHiddenInputs(form);
+        });
+    }
+    showMessage(); // 메시지 표시 함수 호출
 });
+
+function showMessage() {
+    const flashMessageElement = document.getElementById('flashMessage');
+    if (flashMessageElement) {
+        const message = flashMessageElement.value;
+        if (message) {
+            alert(message);
+        }
+    }
+}
+
+

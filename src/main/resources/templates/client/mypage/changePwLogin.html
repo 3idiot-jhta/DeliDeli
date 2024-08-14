@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사장님 - 내정보 수정</title>
+    <title>사장님 - 비밀번호변경</title>
     <!-- Include:공통 CSS -->
     <th:block th:include="inc/common/common-css :: commonCss"></th:block>
     <!-- Include:Client CSS -->
@@ -12,7 +12,14 @@
     <th:block th:include="inc/common/common-js :: commonJs"></th:block>
     <!-- Include:Client JS -->
     <th:block th:include="inc/client/client-js :: clientJs"></th:block>
-
+    <style>
+        .success-message {
+            color: green;
+        }
+        .error-message {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <div class="client-wrap">
@@ -28,17 +35,17 @@
 
         <!-- Start:Contents -->
         <section class="contents">
-            <form action="/client/infoUpdate" method="post">
-                <p>사장 아이디: <span th:text="${client.clientId}" data-field="clientId"></span></p>
-                <p>사장 이름: <span th:text="${client.clientName}" data-field="clientName"></span> <button type="button" onclick="enableEdit(this)">수정</button></p>
-                <p>사장 EID: <span th:text="${client.clientEID}" data-field="clientEID"></span></p>
-                <p>사장 전화번호: <span th:text="${client.clientPhone}" data-field="clientPhone"></span> <button type="button" onclick="enableEdit(this)">수정</button></p>
-                <p>사장 이메일: <span th:text="${client.clientEmail}" data-field="clientEmail"></span> <button type="button" onclick="enableEdit(this)">수정</button></p>
-                <p>사장 계좌: <span th:text="${client.getBankName()}" data-field="bankName"></span></p>
-                <p>사장 은행: <span th:text="${client.getBankAccount()}" data-field="bankAccount"></span></p>
-                <button type="submit">수정완료</button>
+            <h3>사장님 - 비밀번호변경</h3>
+            <form action="/client/changePwLogin" method="post">
+                <p>기존 비밀번호</p> <input type="text" name="clientPw1">
+                <input type="hidden" name="clientId" th:value="${client.clientId}">
+                <p>변경할 비밀번호</p> <input type="text" name="newPw1">
+                <p>변경할 비밀번호 확인</p> <input type="text" name="newPw2">
+                <p id="passwordMessage"></p> <!-- 비밀번호 확인 메시지 -->
+                <button type="submit">변경하기</button>
             </form>
             <input type="hidden" id="flashMessage" th:value="${message}" />
+            <script src="/client/js/module/changePwLogin.js"></script>
             <script src="/client/js/module/infoUpdate.js"></script>
         </section>
         <!-- End:Contents -->
