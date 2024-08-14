@@ -191,8 +191,6 @@ public class BoardController {
         model.addAttribute("user", userAccount);
         log.info("userKey>>>>>>>>>!!! " + userAccount.getUserKey());
         List<Board> list;
-
-        list = boardService.getMyAskList((long) userAccount.getUserKey());
         model.addAttribute("list", list);
 
         return "/user/mypage/myAsk";
