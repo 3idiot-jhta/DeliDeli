@@ -117,7 +117,7 @@ public class UserBoardServiceImpl implements UserBoardService {
         Board board = userBoardMapper.myAskDetail(boardKey);
         return board;
     }
-
+  
     //내문의 삭제
     @Override
     public void myAskDelete(int boardKey) {
