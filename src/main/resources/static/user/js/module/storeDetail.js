@@ -4,14 +4,20 @@ window.onload = function () {
 
     menuGroups.forEach(function (group) {
         group.addEventListener("click", function () {
-            const menuItems = group.nextElementSibling;
-            const currentDisplay = window.getComputedStyle(menuItems).display;
+            // 해당 그룹 내의 모든 .sdTabCnt__menu-item 요소 선택
+            const menuItems = group.parentNode.querySelectorAll(".sdTabCnt__menu-item");
 
-            if (currentDisplay === "none") {
-                menuItems.style.display = "grid";
-            } else {
-                menuItems.style.display = "none";
-            }
+            // 첫 번째 항목의 현재 display 상태를 확인
+            const currentDisplay = window.getComputedStyle(menuItems[0]).display;
+
+            // 각 항목의 display 속성을 토글
+            menuItems.forEach(function (item) {
+                if (currentDisplay === "none") {
+                    item.style.display = "grid";
+                } else {
+                    item.style.display = "none";
+                }
+            });
         });
     });
 
