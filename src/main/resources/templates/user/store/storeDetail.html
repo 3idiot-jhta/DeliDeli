@@ -75,7 +75,7 @@
                         <div class="sdTabCnt sdTabCnt__menu-tab" th:if="${tab == 'menu'}">
                             <div class="sdTabCnt__menu-gItem" th:each="entry : ${groupedMenus}">
                                 <h3>[[${entry.key.menuGroupName}]]</h3>
-                                <div class="sdTabCnt__menu-item" th:each="menu : ${entry.value}" th:data-menu-key="${menu.menuKey}" style="display:none;">
+                                <div class="sdTabCnt__menu-item" th:each="menu : ${entry.value}" th:data-menu-key="${menu.menuKey}" style="display:grid;">
                                     <div class="sdTabCnt__menu-img">
                                         <img th:src="${menu.menuImg}" alt="메뉴 이미지">
                                     </div>
