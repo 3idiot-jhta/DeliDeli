@@ -1,76 +1,36 @@
-# DeliDeli
+# DeliDeli 🍴  
 
-## 폴더구조 설명
+DeliDeli는 일반 사용자, 음식점 사장, 관리자 세 가지 사용자 그룹을 위한 통합 플랫폼입니다.  
 
----------
-```FrontEnd``` 
--
-- static 폴더
-  
-static 폴더는 웹 애플리케이션의 정적 리소스를 저장하는 곳입니다. 여기에는 CSS, JavaScript, 이미지 파일 등이 포함됩니다. Spring Boot는 기본적으로 src/main/resources/static 디렉토리에 있는 파일들을 정적 리소스로 처리합니다.
+- **일반 사용자**: 음식점 검색, 주문 및 결제, 리뷰 작성  
+- **음식점 사장**: 음식점 등록 및 관리, 주문 현황 확인, 매출 분석  
+- **관리자**: 플랫폼 운영 관리, 사용자 및 사장 계정 관리, 취소 사유 통계 시각화
 
-1. common: 애플리케이션 전체에서 공통으로 사용하는 CSS 및 JavaScript 파일을 저장합니다.
+<img src="https://github.com/user-attachments/assets/9a9cb12b-ea7b-4719-a352-f544e1e9cca2" width="70%" />
 
+<br />&nbsp;
 
-2. admin: 관리자 페이지에서 사용하는 CSS 및 JavaScript 파일을 저장합니다.
+## 🛠 Tech Stack
 
+| **Category**        | **Tech**                                                                                                                                             |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Backend**         | ![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white) ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-%236DB33F.svg?style=for-the-badge&logo=springboot&logoColor=white) ![Spring Security](https://img.shields.io/badge/Spring%20Security-%236DB33F.svg?style=for-the-badge&logo=springsecurity&logoColor=white) ![MyBatis](https://img.shields.io/badge/MyBatis-%23007ACC.svg?style=for-the-badge&logo=&logoColor=white) |
+| **Frontend**        | ![HTML5](https://img.shields.io/badge/HTML5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black) ![JQuery](https://img.shields.io/badge/JQuery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white) ![AJAX](https://img.shields.io/badge/AJAX-%230077B5.svg?style=for-the-badge&logo=&logoColor=white) |
+| **Database**        | ![MySQL](https://img.shields.io/badge/MySQL-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white) ![AWS RDS](https://img.shields.io/badge/AWS%20RDS-%23232F3E.svg?style=for-the-badge&logo=amazonaws&logoColor=white) |
+| **Build Tool**      | ![Gradle](https://img.shields.io/badge/Gradle-%2302303A.svg?style=for-the-badge&logo=gradle&logoColor=white)                                         |
+| **Infrastructure**  | ![AWS EC2](https://img.shields.io/badge/AWS%20EC2-%23FF9900.svg?style=for-the-badge&logo=amazonec2&logoColor=white) ![NGINX](https://img.shields.io/badge/NGINX-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) |
+| **DevOps & CI/CD**  | ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)               |
+| **Tools**           | ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-%23000000.svg?style=for-the-badge&logo=intellijidea&logoColor=white) ![DBeaver](https://img.shields.io/badge/DBeaver-%23036571.svg?style=for-the-badge&logo=&logoColor=white) ![Figma](https://img.shields.io/badge/Figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white) ![Git](https://img.shields.io/badge/Git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white) ![GitHub](https://img.shields.io/badge/GitHub-%23181717.svg?style=for-the-badge&logo=github&logoColor=white) ![Sourcetree](https://img.shields.io/badge/Sourcetree-%237AC4F3.svg?style=for-the-badge&logo=sourcetree&logoColor=white) ![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) ![Slack](https://img.shields.io/badge/Slack-%234A154B.svg?style=for-the-badge&logo=slack&logoColor=white) |
 
-3. user: 사용자 페이지에서 사용하는 CSS 및 JavaScript 파일을 저장합니다.
+<br />&nbsp;
 
+## ERD 📊
 
-4. client: 클라이언트 페이지에서 사용하는 CSS 및 JavaScript 파일을 저장합니다.
+![ERD Image](https://github.com/user-attachments/assets/dc681d19-5473-4c34-b5cb-c33614fb5b84)
 
+[🔗 ERDCloud 링크](https://www.erdcloud.com/d/nbnprf4ErGAEBftoK)
 
-- templates 폴더
+<br />&nbsp;
 
-templates 폴더는 Spring Boot에서 Thymeleaf 템플릿 파일을 저장하는 곳입니다. HTML 파일을 포함하며, 동적인 웹 페이지를 생성하기 위해 사용됩니다. Spring Boot는 기본적으로 src/main/resources/templates 디렉토리에 있는 파일들을 템플릿으로 처리합니다.
+## 📁 파일 구조
 
-1. inc: 공통으로 포함되는 템플릿 파일을 저장합니다. 예를 들어, 헤더와 푸터 파일들이 있습니다.
-
-
-2. user: 사용자 페이지용 헤더와 푸터 템플릿 파일을 저장합니다.
-
-
-3. admin: 관리자 페이지 관련 템플릿 파일을 저장합니다.
-
-
-4. client: 클라이언트 페이지 관련 템플릿 파일을 저장합니다.
-
-
-5. user: 사용자 페이지 관련 템플릿 파일을 저장합니다.
-
----------
-```BackEnd```
--
-1. controller: 클라이언트 요청을 처리하고 적절한 뷰 또는 JSON 데이터를 반환하는 컨트롤러 클래스들을 포함합니다.
-예: AdminController, UserController, ClientController
-
-
-2. domain: 데이터베이스 테이블과 매핑되는 엔티티 클래스들을 포함합니다. 각 엔티티 클래스는 데이터베이스의 특정 테이블을 나타내며, JPA를 사용하여 매핑됩니다.
-예: Admin, User, Client
-
-
-3. dto: 데이터 전송 객체(Data Transfer Object)를 포함합니다. DTO는 주로 컨트롤러와 서비스 계층 간에 데이터를 주고받기 위해 사용됩니다.
-예: AdminDTO, UserDTO, ClientDTO
-
-
-4. exception: 특정 도메인과 관련된 커스텀 예외 클래스들을 포함합니다. 예외 처리를 통해 에러 상황을 명확하게 정의하고 관리할 수 있습니다.
-예: AdminNotFoundException, UserNotFoundException, ClientNotFoundException
-
-
-5. repository: 데이터베이스와 상호작용하는 리포지토리 인터페이스를 포함합니다. JPA 리포지토리를 사용하여 데이터베이스 쿼리를 처리합니다.
-예: AdminRepository, UserRepository, ClientRepository
-
-
-6. service: 비즈니스 로직을 처리하는 서비스 클래스들을 포함합니다. 서비스 계층은 트랜잭션을 관리하고, 컨트롤러와 리포지토리 사이의 중간 계층 역할을 합니다.
-예: AdminService, UserService, ClientService
-
-
-7. config 패키지
-config: 애플리케이션의 설정 및 구성 파일을 포함합니다. 보안 설정, 데이터베이스 설정, 웹 설정 등의 구성 클래스들이 포함됩니다.
-예: SecurityConfig, WebConfig
-
-
-8. util 패키지
-util: 공통적으로 사용되는 유틸리티 클래스들을 포함합니다. 이 패키지에는 다양한 도메인과 기능에서 재사용 가능한 유틸리티 메소드와 클래스들이 포함됩니다.
-예: DateUtil, StringUtil
