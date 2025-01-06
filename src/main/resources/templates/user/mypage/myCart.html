@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>사용자 - 내 장바구니</title>
+        <!-- Include:공통 CSS -->
+        <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+        <!-- Include:User CSS -->
+        <th:block th:include="inc/user/user-css :: userCss"></th:block>
+        <!-- Include:공통 JS -->
+        <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+        <!-- Include:User JS -->
+        <th:block th:include="inc/user/user-js :: userJs"></th:block>
+    </head>
+    <body>
+        <!-- Start:Header -->
+        <th:block th:include="inc/user/header :: userHeader"></th:block>
+        <!-- End:Header -->
+
+        <!-- Start:Main -->
+        <main id="mainpage__wrap">
+            <div class="subPage__wrap">
+                <!-- Start:subNav -->
+                <th:block th:include="inc/user/subNav :: subNav"></th:block>
+                <!-- End:subNav -->
+                <h2 class="subPage__title">장바구니</h2>
+                <div class="myCart__con">
+                    <ul class="myCart__shop-items">
+                        <li th:each="entry : ${groupedCartItems}">
+                            <div class="myCart__top">
+                                <h3>[[${entry.key.storeName}]]</h3>
+                                <p>
+                                    최소주문금액 : [[${entry.key.minOrderAmount}]]
+                                </p>
+                            </div>
+                            <ul class="myCart__menu-items">
+                                <li th:each="cartItem : ${entry.value}">
+                                    <div class="myCart__img">
+                                        <img th:src="@{${cartItem.menu.menuImg}}" alt="메뉴 이미지">
+                                    </div>
+                                    <div class="myCart__menu">
+                                        <h3>메뉴 : [[${cartItem.menu.menuName}]]</h3>
+                                        <p th:each="option : ${cartItem.cartOptions}">
+                                            옵션 : [[${option.optionName}]]
+                                        </p>
+                                    </div>
+                                    <ul class="myCart__info">
+                                        <li>수량 : [[${cartItem.quantity}]]</li>
+                                        <li>가격 : [[${cartItem.totalPrice}]]</li>
+                                    </ul>
+                                    <div class="myCart__btn">
+                                        <button type="button" th:onclick="'openEditCartItemWindow(' + ${cartItem.cartKey} + '); return false;'" class="myCart__btn--1">
+                                            수정하기
+                                        </button>
+                                        <button type="button" th:onclick="'deleteCartItem(' + ${cartItem.cartKey} + '); return false;'" class="myCart__btn--2">
+                                            삭제하기
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="myCart__total">
+                                <h4 th:id="storeTotalPrice- + ${entry.key.storeInfoKey}">
+                                    총 금액 : [[${storeTotalPrices[entry.key]}]]원
+                                </h4>
+                                <div class="myCart__total-btn">
+                                    <button type="button" class="myCart__total-btn--1" th:onclick="'location.href=\'' + @{/user/storeDetail/{storeKey}(storeKey=${entry.key.storeInfoKey})} + '\''">
+                                        메뉴추가하기
+                                    </button>
+                                    <button type="button" class="myCart__total-btn--2" th:onclick="'processPayment(' + ${entry.key.storeInfoKey} + ',' + ${entry.key.minOrderAmount} + '); return false;'">
+                                        결제하기
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <script src="/user/js/module/myCart.js"></script>
+            </div>
+        </main>
+        <!-- End:Main -->
+
+        <!-- Start:Footer -->
+        <th:block th:include="inc/user/footer :: userFooter"></th:block>
+        <!-- End:Footer -->
+    </body>
+</html>

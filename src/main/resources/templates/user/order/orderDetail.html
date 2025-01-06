@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>사용자 - 메인페이지</title>
+        <!-- Include:공통 CSS -->
+        <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+        <!-- Include:User CSS -->
+        <th:block th:include="inc/user/user-css :: userCss"></th:block>
+        <!-- Include:공통 JS -->
+        <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+        <!-- Include:User JS -->
+        <th:block th:include="inc/user/user-js :: userJs"></th:block>
+    </head>
+    <body>
+        <!-- Start:Header -->
+        <th:block th:include="inc/user/header :: userHeader"></th:block>
+        <!-- End:Header -->
+
+        <!-- Start:Main -->
+        <main id="mainpage__wrap">
+            <div class="subPage__wrap">
+                <!-- Start:subNav -->
+                <th:block th:include="inc/user/subNav :: subNav"></th:block>
+                <!-- End:subNav -->
+                <h2 class="subPage__title">주문내역</h2>
+                <div class="orderDetail__con">
+                    <input type="hidden" name="storeInfoKey" id="storeInfoKey" th:value="${store.storeInfoKey}">
+                    <input type="hidden" name="userKey" id="userKey" th:value="${user.userKey}">
+                    <div class="orderDeatil__box">
+                        <div class="orderDetail__left">
+                            <div class="orderDetail__L-top">
+                                <span class="orderDetail__status">[[${order.statusMessage}]]</span>
+                                <p class="orderDetail__code">[[${order.orderNo}]]</p>
+                            </div>
+                            <div class="orderDetail__cnt">
+                                <h3 class="orderDetail__shop-name">[[${store.storeName}]]</h3>
+                                <ul class="orderDetail__menu--items">
+                                    <li th:each="menu : ${order.orderDetails}">
+                                        <th:block th:data-menu-name="${menu.menuName}" th:data-quantity="${menu.quantity}" th:data-option-name="${menu.optionName}"></th:block>
+                                        <h4 th:data-menu-name="${menu.menuName}">메뉴 : [[${menu.menuName}]]</h4>
+                                        <p th:data-quantity="${menu.quantity}">수량 : [[${menu.quantity}]]</p>
+                                        <p th:data-option-name="${menu.optionName}">옵션 : [[${menu.optionName}]]</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <ul class="orderDetail__info">
+                                <li>
+                                <span class="orderDetaile__info-left">
+                                    주문일시
+                                </span>
+                                    <span class="orderDetaile__info-right">
+                                    [[${order.formattedOrderDate}]]
+                                </span>
+                                </li>
+                                <li>
+                                <span class="orderDetaile__info-left">
+                                    결제방식
+                                </span>
+                                    <span class="orderDetaile__info-right">
+                                    [[${order.uorderPayment}]]
+                                </span>
+                                </li>
+                                <li>
+                                <span class="orderDetaile__info-left">
+                                    주문금액
+                                </span>
+                                    <span class="orderDetaile__info-right">
+                                    [[${order.uorderPrice}]]
+                                </span>
+                                </li>
+                            </ul>
+                            <div class="orderDetail__price">
+                            <span class="orderDetail__price-left">
+                                총 결제 금액
+                            </span>
+                                <span class="orderDetail__price-right">
+                                [[${order.uorderPrice}]]
+                            </span>
+                            </div>
+                        </div>
+                        <div class="orderDetail__right">
+                            <div class="orderDetail__desc-box">
+                                <span>가게 요청사항</span>
+                                <p>
+                                    [[${order.shopDesc}]]
+                                </p>
+                            </div>
+                            <div class="orderDetail__desc-box">
+                                <span>배달 요청사항</span>
+                                <p>
+                                    [[${order.riderDesc}]]
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="orderDeatil__btn">
+                        <button type="button" class="orderDeatil__btn--1" th:onclick="'location.href=\'' + @{/user/myOrder} + '\''">목록으로</button>
+                        <button type="button" id="sameMenuButton" class="orderDeatil__btn--2">같은메뉴담기</button>
+                    </div>
+                </div>
+                <script src="/user/js/module/orderDetail.js"></script>
+            </div>
+        </main>
+        <!-- End:Main -->
+
+        <!-- Start:Footer -->
+        <th:block th:include="inc/user/footer :: userFooter"></th:block>
+        <!-- End:Footer -->
+    </body>
+</html>

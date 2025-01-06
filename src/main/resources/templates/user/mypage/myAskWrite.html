@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 - 내문의 작성</title>
+    <!-- Include:공통 CSS -->
+    <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+    <!-- Include:User CSS -->
+    <th:block th:include="inc/user/user-css :: userCss"></th:block>
+    <!-- Include:공통 JS -->
+    <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+    <!-- Include:User JS -->
+    <th:block th:include="inc/user/user-js :: userJs"></th:block>
+</head>
+<body>
+    <!-- Start:Header -->
+    <th:block th:include="inc/user/header :: userHeader"></th:block>
+    <!-- End:Header -->
+
+    <!-- Start:Main -->
+    <main id="mainpage__wrap">
+        <div class="subPage__wrap">
+            <h2 class="subPage__title">문의작성</h2>
+            <div class="myAskWrite__wrap">
+                <form action="/user/myAskWrite" method="post">
+                    <div class="myAskWrite__con">
+                        <div class="myAskWrite__box">
+                            <label for="boardTitle">제목</label>
+                            <input type="text" name="boardTitle" id="boardTitle">
+                        </div>
+                        <div class="myAskWrite__box">
+                            <label for="boardContents">내용</label>
+                            <textarea name="boardContents" id="boardContents"></textarea>
+                        </div>
+                    </div>
+                    <div class="myAskWrite__btn">
+                        <button type="button" class="myAskWrite__btn--1" th:onclick="'location.href=\'' + @{/user/myAsk} + '\''">목록으로</button>
+                        <button type="submit" class="myAskWrite__btn--2">작성완료</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <!-- End:Main -->
+
+    <!-- Start:Footer -->
+    <th:block th:include="inc/user/footer :: userFooter"></th:block>
+    <!-- End:Footer -->
+</body>
+</html>

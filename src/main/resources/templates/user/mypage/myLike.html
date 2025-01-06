@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>사용자 - 찜 목록</title>
+        <!-- Include:공통 CSS -->
+        <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+        <!-- Include:User CSS -->
+        <th:block th:include="inc/user/user-css :: userCss"></th:block>
+        <!-- Include:공통 JS -->
+        <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+        <!-- Include:User JS -->
+        <th:block th:include="inc/user/user-js :: userJs"></th:block>
+    </head>
+    <body>
+        <!-- Start:Header -->
+        <th:block th:include="inc/user/header :: userHeader"></th:block>
+        <!-- End:Header -->
+
+        <!-- Start:Main -->
+        <main id="mainpage__wrap">
+            <div class="subPage__wrap">
+                <!-- Start:subNav -->
+                <th:block th:include="inc/user/subNav :: subNav"></th:block>
+                <!-- End:subNav -->
+                <h2 class="subPage__title">찜 목록</h2>
+                <div class="myLike__con">
+                    <ul class="myLike__itmes">
+                        <li th:each="store : ${storeList}">
+                            <a th:href="@{'/user/storeDetail/' + ${store.storeInfoKey}}">
+                                <div class="myLike__img">
+                                    <img th:src="'/' + ${store.storeProfileImg}" alt="가게 이미지">
+                                </div>
+                                <p class="myLike__rating">
+                                    <i class="fa-solid fa-star"></i> [[${store.averageRating}]]
+                                </p>
+                                <h3 class="myLike__name">
+                                    [[${store.storeName}]]
+                                </h3>
+                                <ul class="myLike__info">
+                                    <li>
+                                        최소주문금액 [[${store.minOrderAmount}]]원
+                                    </li>
+                                    <li>
+                                        배달비 [[${store.deliveryAmount1}]]원
+                                    </li>
+                                </ul>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Start:Pagination -->
+                    <th:block th:include="inc/user/pagination :: boardPagination (${type})"></th:block>
+                    <!-- End:Pagination -->
+                </div>
+            </div>
+        </main>
+        <!-- End:Main -->
+
+        <!-- Start:Footer -->
+        <th:block th:include="inc/user/footer :: userFooter"></th:block>
+        <!-- End:Footer -->
+    </body>
+</html>

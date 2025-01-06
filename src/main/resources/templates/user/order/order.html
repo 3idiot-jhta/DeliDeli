@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>사용자 - 주문페이지</title>
+        <!-- Include:공통 CSS -->
+        <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+        <!-- Include:User CSS -->
+        <th:block th:include="inc/user/user-css :: userCss"></th:block>
+        <!-- Include:공통 JS -->
+        <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+        <!-- Include:User JS -->
+        <th:block th:include="inc/user/user-js :: userJs"></th:block>
+    </head>
+    <body>
+        <!-- Start:Header -->
+        <th:block th:include="inc/user/header :: userHeader"></th:block>
+        <!-- End:Header -->
+
+        <!-- Start:Main -->
+        <main id="mainpage__wrap">
+            <div class="subPage__wrap">
+                <div class="order__con">
+                    <input type="hidden" id="storeInfoKey" th:value="${storeInfo.storeInfoKey}" />
+                    <input type="hidden" id="userPoint" th:value="${user.userPoint}" />
+                    <input type="hidden" id="storeAddress" th:value="${storeInfo.storeAddress}" />
+                    <input type="hidden" id="minOrderAmount" th:value="${storeInfo.minOrderAmount}" />
+                    <input type="hidden" id="orderAmount1" th:value="${storeInfo.orderAmount1}" />
+                    <input type="hidden" id="deliveryAmount1" th:value="${storeInfo.deliveryAmount1}" />
+                    <input type="hidden" id="orderAmount2" th:value="${storeInfo.orderAmount2}" />
+                    <input type="hidden" id="deliveryAmount2" th:value="${storeInfo.deliveryAmount2}" />
+                    <input type="hidden" id="orderAmount3" th:value="${storeInfo.orderAmount3}" />
+                    <input type="hidden" id="deliveryAmount3" th:value="${storeInfo.deliveryAmount3}" />
+
+                    <!-- 주문 정보 -->
+                    <div class="od__cnt-box">
+                        <div class="od__left">
+                            <!-- 배달, 포장 선택 -->
+                            <div class="od__rider-con">
+                                <div class="myOrder__radio-box">
+                                    <input type="radio" id="orderMethod1" name="orderMethod" checked onclick="switchTab('in-progress')">
+                                    <label for="orderMethod1">배달</label>
+                                </div>
+                                <div class="myOrder__radio-box">
+                                    <input type="radio" id="orderMethod2" name="orderMethod" value="포장" onclick="toggleDeliveryOption(false)">
+                                    <label for="orderMethod2">포장</label>
+                                </div>
+                            </div>
+                            <!-- 주문 정보 -->
+                            <div class="od__odDetail-con">
+                                <h2>주문 정보</h2>
+                                <h3>[[${storeInfo.storeName}]]</h3>
+                                <p>최소주문금액 : [[${storeInfo.minOrderAmount}]]원</p>
+                                <div class="od__odDetail-box" th:each="cartItem : ${cartItems}" th:data-cart-key="${cartItem.cartKey}">
+                                    <div class="od__odDetail-menu">
+                                        <h3>메뉴 : [[${cartItem.menu.menuName}]]</h3>
+                                        <p>수량 : [[${cartItem.quantity}]]</p>
+                                    </div>
+                                    <th:block th:if="${cartItem.cartOptions.size() > 0}">
+                                        <div class="od__odDetail-option">
+                                            <h3>옵션</h3>
+                                            <p class="option-name" th:each="option : ${cartItem.cartOptions}"
+                                                  th:text="${option.optionName} + ${optionStat.index != optionStat.size - 1 ? ', ' : ''}"></p>
+                                        </div>
+                                    </th:block>
+                                    <p th:text="'가격 : ' + ${cartItem.totalPrice} + '원'"></p>
+                                    <button th:onclick="'deleteCartItem(' + ${cartItem.cartKey} + '); return false;'" class="delete-button">
+                                        삭제하기
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- 포인트 -->
+                            <div class="od__point-con">
+                                <h2>
+                                    [[${user.userNickname}]]님의 POINT : [[${user.userPoint}]]원
+                                </h2>
+                                <a href="/user/charge">충전하기</a>
+                            </div>
+                            <!-- 주소 -->
+                            <div class="od__addr-con">
+                                <div class="od__addr-box" id="addressInfo" th:each="address : ${addressList}" th:if="${address.defaultAddress}">
+                                    <h3>배달 주소지</h3>
+                                    <p>[[${address.address}]], [[${address.addrDetail}]]</p>
+                                    <button type="button" onclick="toggleAddressList()">주소 변경</button>
+                                </div>
+                                <p id="addressErrorMessage" style="display: none;">주문이 불가능한 지역입니다.</p>
+                                <div id="addressListBox" class="od__addr-list" style="display: none;">
+                                    <select id="addressSelect" onchange="selectAddress()">
+                                        <option value="" disabled selected>주소를 선택하세요</option>
+                                        <option th:each="address : ${addressList}"
+                                                th:value="${address.userAddressKey}"
+                                                th:text="${address.address} + ' ' + ${address.addrDetail}">
+                                        </option>
+                                    </select>
+                                    <button type="button" onclick="showAddAddressModal()">주소추가</button>
+                                </div>
+                                <!-- 주소 추가 -->
+                                <div id="addAddressModal" class="od__addr-modal" style="display: none;">
+                                    <h2>주소 추가</h2>
+                                    <form id="addressForm" class="od__addr-form">
+                                        <div class="od__addr-box">
+                                            <label for="newZipcode">우편번호</label>
+                                            <div class="od__addr-input">
+                                                <input type="text" id="newZipcode" name="newZipcode" readonly>
+                                                <button type="button" onclick="execDaumPostcode()">주소찾기</button>
+                                            </div>
+                                        </div>
+                                        <div class="od__addr-box">
+                                            <label for="newAddress">주소</label>
+                                            <input type="text" id="newAddress" name="newAddress" readonly>
+                                        </div>
+                                        <div class="od__addr-box">
+                                            <label for="newAddrDetail">상세주소</label>
+                                            <input type="text" id="newAddrDetail" name="newAddrDetail">
+                                        </div>
+                                        <div class="od__addr-btn">
+                                            <button type="button" class="od__addr-btn--1" onclick="saveAddress()">저장</button>
+                                            <button type="button" class="od__addr-btn--2" onclick="closeAddAddressModal()">취소</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!-- 연락처 -->
+                            <div class="od__phone-con">
+                                <p>연락처 : [[${user.userPhone}]]</p>
+                            </div>
+                            <!-- 결제방식 -->
+                            <div class="od__payment-con">
+                                <h3>결제방식</h3>
+                                <select id="paymentMethod" name="paymentMethod">
+                                    <option value="포인트 결제">포인트 결제</option>
+                                    <option value="만나서 카드결제">만나서 카드결제</option>
+                                    <option value="만나서 현금결제">만나서 현금결제</option>
+                                </select>
+                            </div>
+                            <!-- 쿠폰 -->
+                            <div class="od__payment-con">
+                                <h3>쿠폰</h3>
+                                <select id="couponSelect" name="couponSelect" onchange="applyCouponDiscount()">
+                                    <option value="0" data-discount="0">쿠폰 선택 안함</option>
+                                    <option th:each="coupon : ${coupons}" th:value="${coupon.couponKey}" th:data-discount="${coupon.couponPrice}" th:text="${coupon.couponName} + ' - ' + ${coupon.couponPrice} + '원 할인'"></option>
+                                </select>
+                            </div>
+                            <!-- 배달비 계산 및 표시 -->
+                            <div class="od__delivery-con" id="deliveryFeeContainer">
+                                <p id="deliveryFeeText"></p>
+                            </div>
+                            <!-- 쿠폰 할인 금액 표시 -->
+                            <div class="od__coupon-con" id="couponDiscountContainer">
+                                <p id="couponDiscountText">쿠폰 할인: 0원</p>
+                            </div>
+                            <!-- 총금액 -->
+                            <div class="od__totalPrice-con">
+                                <h3 id="totalAmountText">총 금액 : [[${totalAmount}]]원</h3>
+                                <p id="totalPaymentText"></p>
+                            </div>
+                        </div>
+                        <div class="od__right">
+                            <div class="od__desc">
+                                <h3>가게 요청사항</h3>
+                                <textarea id="shopDesc" name="shopDesc"></textarea>
+                            </div>
+                            <div class="od__desc" th:id="riderDescContainer">
+                                <h3>배달 요청사항</h3>
+                                <textarea id="riderDesc" name="riderDesc"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 주문 버튼 -->
+                    <div class="od__btn-con">
+                        <button type="button" id="confirmOrderButton" onclick="confirmOrder()">주문</button>
+                    </div>
+                </div>
+                <script src="/user/js/module/order.js"></script>
+            </div>
+        </main>
+        <!-- End:Main -->
+
+        <!-- Start:Footer -->
+        <th:block th:include="inc/user/footer :: userFooter"></th:block>
+        <!-- End:Footer -->
+    </body>
+</html>

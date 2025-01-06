@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>사용자 - 내문의 상세보기</title>
+    <!-- Include:공통 CSS -->
+    <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+    <!-- Include:User CSS -->
+    <th:block th:include="inc/user/user-css :: userCss"></th:block>
+    <!-- Include:공통 JS -->
+    <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+    <!-- Include:User JS -->
+    <th:block th:include="inc/user/user-js :: userJs"></th:block>
+</head>
+<body>
+    <!-- Start:Header -->
+    <th:block th:include="inc/user/header :: userHeader"></th:block>
+    <!-- End:Header -->
+
+    <!-- Start:Main -->
+    <main id="mainpage__wrap">
+        <div class="subPage__wrap">
+            <div class="board__wrap">
+                <div class="board__view">
+                    <div class="board__view--top">
+                        <ul class="board__view--info">
+                            <li>
+                                <th:block th:if="${board.boardCommentStatus == 1}">
+                                    <span class="board__view--ctg">답변완료</span>
+                                </th:block>
+                                <th:block th:if="${board.boardCommentStatus == 0}">
+                                    <span class="board__view--ctg" style="background: var(--gray-400); color: var(--gray-900)">미답변</span>
+                                </th:block>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-calendar-days"></i>
+                                [[${board.boardRegdate}]]
+                            </li>
+                        </ul>
+                        <h2 class="board__view--title">
+                            [[${board.boardTitle}]]
+                        </h2>
+                    </div>
+                    <div class="board__view--bottom">
+                        [[${board.boardContents}]]
+                    </div>
+                </div>
+                <div class="myAskDetail__client" th:if="${board.boardCommentStatus == 1}">
+                    <h4>관리자</h4>
+                    <p>
+                        [[${board.boardComment}]]
+                    </p>
+                </div>
+                <div class="board__view--btn-items myAskDetail--btn-items">
+                    <button type="button" class="view-btn1" th:onclick="'location.href=\'' + @{/user/myAsk} + '\''">목록</button>
+                    <button type="button" class="view-btn2" th:onclick="'confirmDelete('+ ${board.boardKey} +')'" th:text="삭제하기"></button>
+                </div>
+
+            </div>
+        </div>
+        <script src="/user/js/module/myAskDetail.js"></script>
+    </main>
+    <!-- End:Main -->
+
+    <!-- Start:Footer -->
+    <th:block th:include="inc/user/footer :: userFooter"></th:block>
+    <!-- End:Footer -->
+</body>
+</html>

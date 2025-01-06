@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>사용자 - 가게 목록</title>
+        <!-- Include:공통 CSS -->
+        <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+        <!-- Include:User CSS -->
+        <th:block th:include="inc/user/user-css :: userCss"></th:block>
+        <!-- Include:공통 JS -->
+        <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+        <!-- Include:User JS -->
+        <th:block th:include="inc/user/user-js :: userJs"></th:block>
+        <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    </head>
+    <body>
+        <!-- Start:Header -->
+        <th:block th:include="inc/user/header :: userHeader"></th:block>
+        <!-- End:Header -->
+
+        <!-- Start:Main -->
+        <main id="mainpage__wrap">
+            <div class="storePage__wrap">
+                <!-- 검색박스 -->
+                <div class="sp__search-con">
+                    <!-- 주소 -->
+                    <div class="sp__search-adr-box">
+                        <th:block th:if="${user == null}">
+                            <!-- 비로그인 -->
+                            <div class="sp__search-adr-input-box">
+                                <p class="search__add-value" id="displayedGuestAddress">
+                                    [[${selectedAddress != null ? selectedAddress : '현재 입력된 주소가 없습니다.'}]]
+                                </p>
+                                <button type="button" onclick="showGuestAddressModal()">주소변경</button>
+                            </div>
+                            <!-- 주소 입력 모달창 -->
+                            <div id="guestAddressModal" style="display: none;">
+                                <form id="guestAddressForm">
+                                    <div class="guest-addr__con">
+                                        <div class="guest-addr__input-box">
+                                            <input type="text" id="guestAddress" name="guestAddress" readonly required>
+                                            <button type="button" onclick="execDaumPostcodeForGuest()">주소 찾기</button>
+                                        </div>
+                                        <input type="text" id="guestAddrDetail" name="guestAddrDetail">
+                                        <div class="guest-addr__btn">
+                                            <button type="button" onclick="applyGuestAddress()">적용</button>
+                                            <button type="button" onclick="closeGuestAddressModal()">취소</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </th:block>
+
+                        <th:block th:if="${user != null}">
+                            <!-- 로그인 -->
+                            <div th:each="address : ${addressList}" th:if="${address.defaultAddress}" class="sp__search-adr-input-box">
+                                <p class="search__add-value" id="loginOn-addr">
+                                    [[${address.address}]] [[${address.addrDetail}]]
+                                </p>
+                                <button type="button" onclick="toggleAddressList()">주소변경</button>
+                            </div>
+                            <!-- 주소 리스트 박스 -->
+                            <div id="addressListBox" style="display: none;">
+                                <div class="addr-select__con">
+                                    <select id="addressSelect" onchange="selectAddress()">
+                                        <option value="" disabled selected>주소를 선택하세요</option>
+                                        <option th:each="address : ${addressList}"
+                                                th:value="${address.userAddressKey}"
+                                                th:text="${address.address} + ' ' + ${address.addrDetail}">
+                                        </option>
+                                    </select>
+                                    <button onclick="showAddAddressModal()">주소 추가</button>
+                                </div>
+                            </div>
+                            <!-- 주소 입력 모달창 -->
+                            <div id="addAddressModal" style="display: none;">
+                                <form id="addressForm">
+                                    <div class="guest-addr__con">
+                                        <div class="guest-addr__input-box">
+                                            <input type="text" id="newZipcode" name="newZipcode" readonly required>
+                                            <button type="button" onclick="execDaumPostcode()">주소 찾기</button>
+                                        </div>
+                                        <input type="text" id="newAddress" name="newAddress">
+                                        <input type="text" id="newAddrDetail" name="newAddrDetail">
+                                        <div class="guest-addr__btn">
+                                            <button type="button" onclick="saveAddress()">적용</button>
+                                            <button type="button" onclick="closeAddAddressModal()">취소</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </th:block>
+                    </div>
+                    <!-- 가게 -->
+                    <div class="sp__search-store-box">
+                        <div class="sp__search-store-input-box">
+                            <span>
+                                <i class="fa-solid fa-utensils"></i>
+                            </span>
+                            <input type="text" id="storeSearchInput" placeholder="가게명을 입력하세요" />
+                        </div>
+                        <button type="button" id="searchButton" onclick="searchStores()">검색</button>
+                    </div>
+                </div>
+                <!-- 카테고리 -->
+                <div class="sp__ctg-con">
+                    <th:block th:if="${user != null}">
+                        <!-- 로그인 -->
+                        <ul class="sp__ctg">
+                            <li th:classappend="${active == 0} ? active : ''">
+                                <a href="/user/category/0">ALL</a>
+                            </li>
+                            <th:block th:each="category : ${categoryList}">
+                                <li th:classappend="${active == category.categoryKey} ? active : ''">
+                                    <a th:href="@{'/user/category/' + ${category.categoryKey}}">
+                                        [[${category.categoryName}]]
+                                    </a>
+                                </li>
+                            </th:block>
+                        </ul>
+                    </th:block>
+                    <th:block th:if="${user == null}">
+                        <!-- 비로그인 -->
+                        <ul class="sp__ctg">
+                            <li th:classappend="${active == 0} ? active : ''">
+                                <a href="#" class="category-link" data-base-url="/user/category/0">ALL</a>
+                            </li>
+                            <th:block th:each="category : ${categoryList}">
+                                <li th:classappend="${active == category.categoryKey} ? active : ''">
+                                    <a href="#" class="category-link"
+                                       th:data-base-url="@{'/user/category/' + ${category.categoryKey}}">
+                                        [[${category.categoryName}]]
+                                    </a>
+                                </li>
+                            </th:block>
+                        </ul>
+                    </th:block>
+                </div>
+                <!-- 가게목록 -->
+                <div class="sp__store-con" id="storeList">
+                    <ul class="sp__list">
+                        <li th:each="store : ${storeList}">
+                            <a th:href="@{'/user/storeDetail/' + ${store.storeInfoKey}}">
+                                <div class="sp__img" th:if="${store != null}">
+                                    <img th:src="@{${store.storeProfileImg != null ? '/' + store.storeProfileImg : '/path/to/default/image.jpg'}}" alt="Menu Image">
+                                </div>
+                                <div class="sp__info">
+                                    <ul class="sp__rating">
+                                       <li>
+                                           <i class="fa-solid fa-star"></i>
+                                           [[${store.averageRating}]]
+                                       </li>
+                                       <li>
+                                           리뷰
+                                           [[${store.reviewCount}]]
+                                       </li>
+                                    </ul>
+                                    <h3 class="sp__name">[[${store.storeName}]]</h3>
+                                    <p th:if="${store.businessStatus == '영업중'}" class="sp__status sp__status--on">
+                                        영업중
+                                    </p>
+                                    <p th:if="${store.businessStatus == '일시정지'}" class="sp__status sp__status--stop">
+                                        일시정지
+                                    </p>
+                                    <p th:if="${store.businessStatus == '마감'}" class="sp__status sp__status--off">
+                                        마감
+                                    </p>
+                                    <div class="sp__menu">
+                                        <p th:if="${store.firstMenu != null}">
+                                            대표 메뉴 : [[${store.firstMenu.menuName}]]
+                                        </p>
+                                    </div>
+                                    <ul class="sp__etc-info">
+                                        <li>배달비 : [[${store.deliveryAmount3}]] ~ [[${store.deliveryAmount1}]]</li>
+                                        <li>오픈시간 : [[${store.openTime}]]</li>
+                                        <li>마감시간 : [[${store.closeTime}]]</li>
+                                    </ul>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Start:Pagination -->
+                <th:block th:include="inc/user/pagination :: boardPagination (${type})"></th:block>
+                <!-- End:Pagination -->
+            </div>
+
+            <script src="/user/js/module/store.js"></script>
+        </main>
+        <!-- End:Main -->
+
+        <!-- Start:Footer -->
+        <th:block th:include="inc/user/footer :: userFooter"></th:block>
+        <!-- End:Footer -->
+    </body>
+</html>

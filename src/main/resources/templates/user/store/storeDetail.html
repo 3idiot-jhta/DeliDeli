@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>사용자 - 가게 상세페이지</title>
+        <!-- Include:공통 CSS -->
+        <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+        <!-- Include:User CSS -->
+        <th:block th:include="inc/user/user-css :: userCss"></th:block>
+        <!-- Include:공통 JS -->
+        <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+        <!-- Include:User JS -->
+        <th:block th:include="inc/user/user-js :: userJs"></th:block>
+    </head>
+    <body>
+        <!-- Start:Header -->
+        <th:block th:include="inc/user/header :: userHeader"></th:block>
+        <!-- End:Header -->
+
+        <!-- Start:Main -->
+        <main id="mainpage__wrap">
+            <div class="storePage__wrap">
+                <div class="storeDetail__con">
+                    <div class="storeDetail__box">
+                        <div class="storeDetail__box--left">
+                            <div class="storeDetail__img">
+                                <img th:src="'/' + ${store.storeProfileImg}" alt="가게 이미지">
+                            </div>
+                            <div class="storeDetail__info-box">
+                                <p th:if="${store.businessStatus == '영업중'}" class="sd__status sd__status--on">영업중</p>
+                                <p th:if="${store.businessStatus == '일시정지'}" class="sd__status sd__status--stop">일시정지</p>
+                                <p th:if="${store.businessStatus == '마감'}" class="sd__status sd__status--off">마감</p>
+                                <h3 class="storeDetail__title">
+                                    [[${store.storeName}]]
+                                    <span class="storeDetail__rating">
+                                        <i class="fa-solid fa-star"></i> [[${store.averageRating}]]
+                                        ([[${store.reviewCount}]])
+                                    </span>
+                                </h3>
+                                <ul class="storeDetail__shop-info">
+                                    <li>
+                                        최소주문금액 : [[${store.minOrderAmount}]]원
+                                    </li>
+                                    <li>
+                                        배달비 : [[${store.deliveryAmount1}]]원 ~ [[${store.deliveryAmount3}]]원
+                                    </li>
+                                    <li>
+                                        오픈시간 : [[${store.openTime}]]
+                                    </li>
+                                    <li>
+                                        마감시간 : [[${store.closeTime}]]
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="storeDetail__box--right">
+                            <ul class="storeDetail__info-tab">
+                                <li class="tab" th:classappend="${tab == 'menu'} ? 'active' : ''">
+                                    <a th:href="@{'/user/storeDetail/' + ${store.storeInfoKey} + '?tab=menu'}">메뉴</a>
+                                </li>
+                                <li class="tab" th:classappend="${tab == 'review'} ? 'active' : ''">
+                                    <a th:href="@{'/user/storeDetail/' + ${store.storeInfoKey} + '?tab=review'}">리뷰</a>
+                                </li>
+                                <li class="tab" th:classappend="${tab == 'info'} ? 'active' : ''">
+                                    <a th:href="@{'/user/storeDetail/' + ${store.storeInfoKey} + '?tab=info'}">가게 정보</a>
+                                </li>
+                                <li class="storeDetail__like" th:if="${user != null}">
+                                    <button id="wishlist-btn" th:data-store-info-key="${store.storeInfoKey}" th:text="${isLiked} ? '찜 취소' : '찜하기'"></button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="storeDetail__tabCnt">
+                        <div class="sdTabCnt sdTabCnt__menu-tab" th:if="${tab == 'menu'}">
+                            <div class="sdTabCnt__menu-gItem" th:each="entry : ${groupedMenus}">
+                                <h3>[[${entry.key.menuGroupName}]]</h3>
+                                <div class="sdTabCnt__menu-item" th:each="menu : ${entry.value}" th:data-menu-key="${menu.menuKey}" style="display:grid;">
+                                    <div class="sdTabCnt__menu-img">
+                                        <img th:src="${menu.menuImg}" alt="메뉴 이미지">
+                                    </div>
+                                    <h4>[[${menu.menuName}]]</h4>
+                                    <p>[[${menu.menuPrice}]]원</p>
+                                </div>
+                            </div>
+                            <!-- Menu Modal -->
+                            <div id="menuModal" class="modal" style="display:none;">
+                                <div class="modal-content">
+                                    <span class="close" onclick="closeModal()">&times;</span>
+                                    <div id="menuDetailContent"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sdTabCnt sdTabCnt__review-tab" th:if="${tab == 'review'}">
+                            <div class="sbTabCnt__review-item" th:each="review : ${reviewList}">
+                                <div class="sbTabCnt__review-img">
+                                    <img th:if="${review.reviewPhoto1 != null}" th:src="'/' + ${review.reviewPhoto1}" alt="리뷰 이미지">
+                                    <img th:if="${review.reviewPhoto2 != null}" th:src="'/' + ${review.reviewPhoto2}" alt="리뷰 이미지">
+                                </div>
+                                <div class="sbTabCnt__review-info">
+                                    <h3>
+                                        <i class="fa-solid fa-star"></i>
+                                        [[${review.reviewRating}]]
+                                    </h3>
+                                    <h4>[[${review.userNickname}]]</h4>
+                                    <p>[[${review.reviewDesc}]]</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sdTabCnt sdTabCnt__info-tab" th:if="${tab == 'info'}">
+                            <div class="sdTabCnt__info-box">
+                                <div class="sdTabCnt__info-cnt">
+                                    <h3>가게 정보</h3>
+                                    <ul>
+                                        <li>
+                                            상호 : [[${store.storeName}]]
+                                        </li>
+                                        <li>
+                                            전화번호 : [[${store.storePhone}]]
+                                        </li>
+                                        <li>
+                                            주소 : [[${store.storeAddress}]], [[${store.storeAddrDetail}]]
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="sdTabCnt__info-cnt">
+                                    <h3>사업자 정보</h3>
+                                    <ul>
+                                        <li>
+                                            대표명 : [[${store.clientName}]]
+                                        </li>
+                                        <li>
+                                            상호명 : [[${store.storeName}]]
+                                        </li>
+                                        <li>
+                                            사업자등록번호 : [[${store.clientEID}]]
+                                        </li>
+                                        <li>
+                                            전화번호 : [[${store.clientPhone}]]
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="sdTabCnt__info-cnt">
+                                    <h3>원산지 정보</h3>
+                                    <ul>
+                                        <li>
+                                            원산지 : [[${store.storeOriginInfo}]]
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="sdTabCnt__info-box">
+                                <div class="sdTabCnt__info-cnt">
+                                    <h3>가게 소개</h3>
+                                    <div class="sdTabCnt__info-img">
+                                        <img th:src="'/' + ${store.storeProfileImg}" alt="가게 이미지">
+                                    </div>
+                                    <p class="sdTabCnt__info-desc">
+                                        [[${store.storeDetailInfo}]]
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="sdTabCnt__info-box">
+                                <div class="sdTabCnt__info-cnt">
+                                    <h3>배달비 안내</h3>
+                                    <ul>
+                                        <li th:if="${store.orderAmount1 != null}">
+                                            주문금액 [[${store.orderAmount1}]]원 이상 : 배달팁 [[${store.deliveryAmount1}]]원
+                                        </li>
+                                        <li th:if="${store.orderAmount2 != null}">
+                                            주문금액 [[${store.orderAmount2}]]원 이상 : 배달팁 [[${store.deliveryAmount2}]]원
+                                        </li>
+                                        <li th:if="${store.orderAmount3 != null}">
+                                            주문금액 [[${store.orderAmount3}]]원 이상 : 배달팁 [[${store.deliveryAmount3}]]원
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script src="/user/js/module/storeDetail.js"></script>
+        </main>
+        <!-- End:Main -->
+
+        <!-- Start:Footer -->
+        <th:block th:include="inc/user/footer :: userFooter"></th:block>
+        <!-- End:Footer -->
+    </body>
+</html>

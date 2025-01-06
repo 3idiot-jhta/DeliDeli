@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>사용자 - 리뷰 작성</title>
+        <!-- Include:공통 CSS -->
+        <th:block th:include="inc/common/common-css :: commonCss"></th:block>
+        <!-- Include:User CSS -->
+        <th:block th:include="inc/user/user-css :: userCss"></th:block>
+        <!-- Include:공통 JS -->
+        <th:block th:include="inc/common/common-js :: commonJs"></th:block>
+        <!-- Include:User JS -->
+        <th:block th:include="inc/user/user-js :: userJs"></th:block>
+    </head>
+    <body>
+        <!-- Start:Header -->
+        <th:block th:include="inc/user/header :: userHeader"></th:block>
+        <!-- End:Header -->
+
+        <!-- Start:Main -->
+        <main id="mainpage__wrap">
+            <div class="subPage__wrap">
+                <!-- Start:subNav -->
+                <th:block th:include="inc/user/subNav :: subNav"></th:block>
+                <!-- End:subNav -->
+                <h2 class="subPage__title">리뷰작성</h2>
+                <div class="writeReview__con">
+                    <form th:action="@{/user/saveReview}" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="orderKey" th:value="${order.orderKey}">
+                        <input type="hidden" name="storeInfoKey" th:value="${storeInfo.storeInfoKey}">
+                        <input type="hidden" name="clientKey" th:value="${storeInfo.clientKey}">
+
+                        <h3 class="writeReview__storeName">
+                            [[${storeInfo.storeName}]]
+                        </h3>
+                        <div class="writeReview__input-con">
+                            <div class="writeReview__input-box">
+                                <label for="reviewRating">별점</label>
+                                <input type="number" name="reviewRating" id="reviewRating" min="1" max="5">
+                            </div>
+                            <div class="writeReview__input-box">
+                                <label for="reviewRating">리뷰</label>
+                                <textarea name="reviewDesc" id="reviewDesc"></textarea>
+                            </div>
+                            <div class="writeReview__input-box">
+                                <label>이미지</label>
+                                <div class="writeReview__img-con">
+                                    <div class="writeReview__img-box">
+                                        <div class="writeReview__img" onclick="document.getElementById('reviewPhoto1').click()">
+                                            <p>IMG</p>
+                                        </div>
+                                        <input type="file" id="reviewPhoto1" name="reviewPhoto1" accept=".jpg, .jpeg, .png" style="display:none" onchange="loadImage(event, 'fileInput1')">
+                                    </div>
+                                    <div class="writeReview__img-box">
+                                        <div class="writeReview__img" onclick="document.getElementById('reviewPhoto2').click()">
+                                            <p>IMG</p>
+                                        </div>
+                                        <input type="file" id="reviewPhoto2" name="reviewPhoto2" accept=".jpg, .jpeg, .png" style="display:none" onchange="loadImage(event, 'fileInput1')">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="writeReview__btn">
+                            <button type="submit">등록하기</button>
+                        </div>
+                    </form>
+                </div>
+                <script src="/user/js/module/writeReview.js"></script>
+            </div>
+        </main>
+        <!-- End:Main -->
+
+        <!-- Start:Footer -->
+        <th:block th:include="inc/user/footer :: userFooter"></th:block>
+        <!-- End:Footer -->
+    </body>
+</html>
